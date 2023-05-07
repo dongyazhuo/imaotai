@@ -91,8 +91,9 @@ def login(mobile: str, v_code: str):
 def get_current_session_id():
     day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
     responses = requests.get(f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/{day_time}")
-    logging.info(
-        f'get_current_session_id : params : {day_time}, response code : {responses.status_code}, response body : {responses.json()}')
+    if responses.status_code != 200:
+        logging.warning(
+            f'get_current_session_id : params : {day_time}, response code : {responses.status_code}, response body : {responses.json()}')
     current_session_id = responses.json()['data']['sessionId']
     dict.update(headers, {'current_session_id': str(current_session_id)})
 
@@ -102,8 +103,9 @@ def get_location_count(city: str, item_code: str):
     session_id = headers['current_session_id']
     responses = requests.get(
         f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/shop/list/slim/v3/{session_id}/{city}/{item_code}/{day_time}")
-    logging.info(
-        f'get_location_count : params : {day_time}, response code : {responses.status_code}, response body : {responses.json()}')
+    if responses.status_code != 200:
+        logging.warning(
+            f'get_location_count : params : {day_time}, response code : {responses.status_code}, response body : {responses.json()}')
     shops = responses.json()['data']['shops']
     max_count = 0
     max_shop_id = 0
