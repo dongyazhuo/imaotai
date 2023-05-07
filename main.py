@@ -16,11 +16,11 @@ process.get_current_session_id()
 
 configs = login.config
 for section in configs.sections():
-    #print(f'开始：{section}')
     mobile = section
     city = configs.get(section, 'city')
     token = configs.get(section, 'token')
     userId = configs.get(section, 'userid')
+    keyword = configs.get(section, 'keyword')
 
     process.UserId = userId
     process.TOKEN = token
@@ -28,11 +28,8 @@ for section in configs.sections():
     # 根据配置中，要预约的商品ID，城市 进行自动预约
     try:
         for item in config.ITEM_CODES:
-            max_shop_id = process.get_location_count(city=city, item_code=item)
+            max_shop_id = process.get_location_count(city=city, item_code=item, keyword=keyword)
             reservation_params = process.act_params(max_shop_id, item)
             process.reservation(reservation_params, mobile)
-
     except BaseException as e:
-        print(e)
         logging.error(e)
-        pass
