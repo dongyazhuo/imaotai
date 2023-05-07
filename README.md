@@ -25,6 +25,23 @@ Enter mobile No[13812341234]:1861164****
 Enter [1861164****] verify code[1234]:1433
 是否继续输入[Y/N]:n
 ```
+```shell
+mobian@mobian:~/app/imaotai$ cat ~/.imaotai/credentials 
+[1850006****]
+city = 西安市
+token = zF3viZiQyUeYb5i4dxAhcBWguXS5VFYUPS5Di7BdsLs
+userid = 106944****
+
+[1863637****]
+city = 北京市
+token = eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9
+userid = 1102514****
+
+[1861164****]
+city = 北京市
+token = 6INvrtyGOTdpsvFmiw0I4FoFNDyG-ekt2WFsQsU9nBU
+userid = 10677****
+```
 ### 3、python3 main.py ,执行预约操作
 ```shell
 python3 main.py
