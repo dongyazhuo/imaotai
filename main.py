@@ -33,5 +33,6 @@ for section in configs.sections():
             process.reservation(reservation_params, mobile)
 
     except BaseException as e:
+        print(e)
         logging.error(e)
         pass
