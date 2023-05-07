@@ -16,6 +16,7 @@ process.get_current_session_id()
 
 configs = login.config
 for section in configs.sections():
+    print(f'开始：{section}')
     mobile = section
     city = configs.get(section, 'city')
     token = configs.get(section, 'token')
