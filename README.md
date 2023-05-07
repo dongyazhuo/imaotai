@@ -7,6 +7,7 @@
 ### 4、根据配置文件预约CONFIG文件中，所在城市的i茅台商品（仅预约兔茅）
 
 ## 使用：
+### 0、pip install -r requirements.txt
 ### 1、修改config.py Email相关的配置.如果出现token失效等预约失败,会进行邮件通知。不需要的话请设置 EMAIL_SENDER_USERNAME 为空
 ### 2、python3 login.py ,按提示输入 预约城市、手机号、验证码 等，生成的token等 配置文件会保存在 $HOME/.imaotai/credentials, 很长时间不再需要登录。支持多账号
 ### 3、python3 main.py ,执行预约操作
