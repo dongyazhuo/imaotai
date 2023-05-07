@@ -53,7 +53,7 @@ if __name__ == '__main__':
     while True:
         process.init_headers()
         print(json.dumps(providers, indent=5, ensure_ascii=False))
-        city = input("选择序号[23]:").lstrip().rstrip()
+        city = input("选择预约省份序号[23]:").lstrip().rstrip()
         if city == '':
             city = '23'
         city = providers.get(city)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         config.set(mobile, 'userId', str(userId))
         config.set(mobile, 'keyword', str(keyword))
         config.write(open(path, 'w+'))  # 保存数据
-        condition = input(f"是否继续输入[Y/N]:").lstrip().rstrip()
+        condition = input(f"是否继续添加账号[Y/N]:").lstrip().rstrip()
         condition = condition.lower()
         if condition == 'n':
             break
