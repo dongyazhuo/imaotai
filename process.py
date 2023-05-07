@@ -120,8 +120,9 @@ def get_location_count(city: str, item_code: str, keyword: str):
     for shop in shops:
         shopId = shop['shopId']
         items = shop['items']
-        ownerName = shop['ownerName']
+
         for item in items:
+            ownerName = item['ownerName']
             if item['itemId'] != str(item_code):
                 continue
             if keyword not in ownerName:
