@@ -19,10 +19,10 @@ if __name__ == '__main__':
     while True:
         process.init_headers()
         city = input("Enter city name[北京市]:").lstrip().rstrip()
-        if not city.endswith("市"):
-            city += "市"
         if city == '':
             city = '北京市'
+        if not city.endswith("市"):
+            city += "市"
         mobile = input("Enter mobile No[13812341234]:").lstrip().rstrip()
         process.get_vcode(mobile)
         code = input(f"Enter [{mobile}] verify code[1234]:").lstrip().rstrip()
