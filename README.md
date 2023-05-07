@@ -22,7 +22,7 @@ EMAIL_RECEIVER = EMAIL_SENDER_USERNAME
 mobian@mobian:~/app/imaotai$ python3 login.py 
 Enter city name[北京市]:
 Enter mobile No[13812341234]:1861164****
-Enter [18611643318] verify code[1234]:1433
+Enter [1861164****] verify code[1234]:1433
 是否继续输入[Y/N]:n
 ```
 ### 3、python3 main.py ,执行预约操作
