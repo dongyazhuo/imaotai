@@ -17,12 +17,14 @@ sections = config.sections()
 if __name__ == '__main__':
     process.init_headers()
     while True:
-        city = input("Enter city name:").lstrip().rstrip()
+        city = input("Enter city name[北京市]:").lstrip().rstrip()
         if not city.endswith("市"):
             city += "市"
-        mobile = input("Enter mobile No:").lstrip().rstrip()
+        if city == '':
+            city = '北京市'
+        mobile = input("Enter mobile No[13812341234]:").lstrip().rstrip()
         process.get_vcode(mobile)
-        code = input(f"Enter [{mobile}] verify code:").lstrip().rstrip()
+        code = input(f"Enter [{mobile}] verify code[1234]:").lstrip().rstrip()
         token, userId = process.login(mobile, code)
         if mobile not in sections:
             config.add_section(mobile)  # 首先添加一个新的section
