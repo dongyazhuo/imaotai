@@ -68,8 +68,9 @@ def get_vcode(mobile: str):
     dict.update(params, {'md5': md5, "timestamp": CURRENT_TIME})
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/vcode", json=params,
                               headers=headers)
-    print(
-        f'get v_code : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
+    if responses.status_code != 200:
+        print(
+            f'get v_code : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
 
 
 def login(mobile: str, v_code: str):
@@ -78,8 +79,9 @@ def login(mobile: str, v_code: str):
     dict.update(params, {'md5': md5, "timestamp": CURRENT_TIME})
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/login", json=params,
                               headers=headers)
-    print(
-        f'login : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
+    if responses.status_code != 200:
+        print(
+            f'login : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
     dict.update(headers, {'MT-Token': responses.json()['data']['token']})
     dict.update(headers, {'userId': responses.json()['data']['userId']})
     return responses.json()['data']['token'], responses.json()['data']['userId']
