@@ -7,17 +7,21 @@
 ### 4、根据配置文件预约CONFIG文件中，所在城市的i茅台商品（仅预约兔茅）
 
 ## 使用：
-### 0、安装依赖
+### rename config.py.example config.py
+```shell
+mv config.py.example config.py
+```
+### 1、安装依赖
 ```shell
 pip3 install -r requirements.txt
 ```
-### 1、修改config.py Email相关的配置.如果出现token失效等预约失败,会进行邮件通知。不需要的话请设置 EMAIL_SENDER_USERNAME 为空
+### 2、修改config.py Email相关的配置.如果出现token失效等预约失败,会进行邮件通知。不需要的话请设置 EMAIL_SENDER_USERNAME 为空
 ```shell
 EMAIL_SENDER_USERNAME = "sender@126.com"
 EMAIL_SENDER_PASSWORD = "XXXGKIB"
 EMAIL_RECEIVER = EMAIL_SENDER_USERNAME
 ```
-### 2、按提示输入 预约城市、手机号、验证码 等，生成的token等 配置文件会保存在 $HOME/.imaotai/credentials, 很长时间不再需要登录。支持多账号
+### 3、按提示输入 预约城市、手机号、验证码 等，生成的token等 配置文件会保存在 $HOME/.imaotai/credentials, 很长时间不再需要登录。支持多账号
 ```shell
 mobian@mobian:~/app/imaotai$ python3 login.py 
 Enter city name[北京市]:
@@ -42,7 +46,7 @@ city = 北京市
 token = 6INvrtyGOTdpsvFmiw0I4FoFNDyG-ekt2WFsQsU9nBU
 userid = 10677****
 ```
-### 3、python3 main.py ,执行预约操作
+### 4、python3 main.py ,执行预约操作
 ```shell
 python3 main.py
 ```
@@ -57,4 +61,4 @@ python3 main.py
 ### 3、
 
 
-#### 感谢提供的文档：https://blog.csdn.net/weixin_47481826/article/details/128893239
+##### 感谢提供的文档：https://blog.csdn.net/weixin_47481826/article/details/128893239
