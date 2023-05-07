@@ -119,7 +119,7 @@ def get_location_count(city: str, item_code: str):
                 max_count = item['inventory']
                 max_shop_id = shopId
 
-    logging.info(f'item code {item_code}, max shop id : {max_shop_id}, max count : {max_count}')
+    logging.debug(f'item code {item_code}, max shop id : {max_shop_id}, max count : {max_count}')
     return max_shop_id
 
 
@@ -178,4 +178,4 @@ def reservation(params: dict, mobile: str):
         send_email(f'[{mobile}],登录token失效，需要重新登录')
         raise RuntimeError
     logging.info(
-        f'reservation : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
+        f'预约 : mobile:{mobile} : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
