@@ -9,3 +9,5 @@ for item in config.ITEM_CODES:
     max_shop_id = process.get_location_count(city=config.CITY, item_code=item)
     reservation_params = process.act_params(max_shop_id, item)
     process.reservation(reservation_params)
+
+# process.auto_login()

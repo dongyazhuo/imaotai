@@ -17,8 +17,9 @@ Host: app.moutai519.com.cn
 MT-User-Tag: 0
 Accept: */*
 MT-Network-Type: WIFI
-MT-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdCIsImV4cCI6MTY4NTk1OTkwMSwidXNlcklkIjoxMDY3NzIyMjcxLCJkZXZpY2VJZCI6IjJGMjA3NUQwLUI2NkMtNDI4Ny1BOTAzLURCRkY2MzU4MzQyQSIsImlhdCI6MTY4MzM2NzkwMX0.eaPD3HcTE6ObjDhCtahXT4mLWGh4H5HGiMcjtQ6PVBs
+MT-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdCIsImV4cCI6MTY4NjAxNDE5MCwidXNlcklkIjoxMDY3NzIyMjcxLCJkZXZpY2VJZCI6IjJGMjA3NUQwLUI2NkMtNDI4Ny1BOTAzLURCRkY2MzU4MzQyQSIsImlhdCI6MTY4MzQyMjE5MH0.qEvw9CA12CBdLYNXbaupbbH_Y9gvaeOwSyb0Xk8kv8Q
 MT-Team-ID: 
+MT-Info: 028e7f96f6369cafe1d105579c5b9377
 MT-Device-ID: {device_id}
 MT-Bundle-ID: com.moutai.mall
 Accept-Language: en-CN;q=1, zh-Hans-CN;q=0.9
@@ -30,6 +31,7 @@ Content-Length: 93
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
 Content-Type: application/json
+userId: 1067722271
 '''
 
 for k in header_context.rstrip().lstrip().split("\n"):
@@ -71,6 +73,7 @@ def login(mobile: str, v_code: str):
     print(
         f'login : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
     dict.update(headers, {'MT-Token': responses.json()['data']['token']})
+    dict.update(headers, {'userId': responses.json()['data']['userId']})
 
 
 def get_current_session_id():
@@ -122,7 +125,12 @@ def act_params(shop_id: str, item_id: str):
     #     "sessionId": 508
     # }
     session_id = headers['current_session_id']
-    params = {"sessionId": session_id, "shopId": shop_id, "itemInfoList": [{"count": 1, "itemId": item_id}]}
+    userId = headers['userId']
+    params = {"itemInfoList": [{"count": 1, "itemId": item_id}],
+              "sessionId": int(session_id),
+              "userId": userId,
+              "shopId": shop_id
+              }
     s = json.dumps(params)
     act = encrypt.aes_encrypt(s)
     params.update({"actParam": act})
@@ -139,9 +147,11 @@ def auto_login():
 
 
 def reservation(params: dict):
+    params.pop('userId')
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/mall/reservation/add", json=params,
                               headers=headers)
     if responses.text.__contains__('bad token'):
+        pass
         auto_login()
         reservation(params)
     print(
