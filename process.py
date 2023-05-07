@@ -190,4 +190,4 @@ def reservation(params: dict, mobile: str):
         send_email(f'[{mobile}],登录token失效，需要重新登录')
         raise RuntimeError
     logging.info(
-        f'预约 : mobile:{mobile} : params : {params}, response code : {responses.status_code}, response body : {responses.text}')
+        f'预约 : mobile:{mobile} :  response code : {responses.status_code}, response body : {responses.text}')
