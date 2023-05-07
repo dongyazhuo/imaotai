@@ -15,8 +15,9 @@ config.read(path)
 sections = config.sections()
 
 if __name__ == '__main__':
-    process.init_headers()
+
     while True:
+        process.init_headers()
         city = input("Enter city name[北京市]:").lstrip().rstrip()
         if not city.endswith("市"):
             city += "市"
