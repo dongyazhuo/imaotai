@@ -8,6 +8,7 @@ from encrypt import Encrypt
 import requests
 import hashlib
 import smtplib
+import logging
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
@@ -69,7 +70,7 @@ def get_vcode(mobile: str):
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/vcode", json=params,
                               headers=headers)
     if responses.status_code != 200:
-        print(
+        logging.info(
             f'get v_code : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
 
 
@@ -80,7 +81,7 @@ def login(mobile: str, v_code: str):
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/login", json=params,
                               headers=headers)
     if responses.status_code != 200:
-        print(
+        logging.info(
             f'login : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
     dict.update(headers, {'MT-Token': responses.json()['data']['token']})
     dict.update(headers, {'userId': responses.json()['data']['userId']})
@@ -90,7 +91,7 @@ def login(mobile: str, v_code: str):
 def get_current_session_id():
     day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
     responses = requests.get(f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/{day_time}")
-    print(
+    logging.info(
         f'get_current_session_id : params : {day_time}, response code : {responses.status_code}, response body : {responses.json()}')
     current_session_id = responses.json()['data']['sessionId']
     dict.update(headers, {'current_session_id': str(current_session_id)})
@@ -101,7 +102,7 @@ def get_location_count(city: str, item_code: str):
     session_id = headers['current_session_id']
     responses = requests.get(
         f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/shop/list/slim/v3/{session_id}/{city}/{item_code}/{day_time}")
-    print(
+    logging.info(
         f'get_location_count : params : {day_time}, response code : {responses.status_code}, response body : {responses.json()}')
     shops = responses.json()['data']['shops']
     max_count = 0
@@ -116,7 +117,7 @@ def get_location_count(city: str, item_code: str):
                 max_count = item['inventory']
                 max_shop_id = shopId
 
-    print(f'item code {item_code}, max shop id : {max_shop_id}, max count : {max_count}')
+    logging.info(f'item code {item_code}, max shop id : {max_shop_id}, max count : {max_count}')
     return max_shop_id
 
 
@@ -174,5 +175,5 @@ def reservation(params: dict, mobile: str):
     if responses.text.__contains__('bad token'):
         send_email(f'[{mobile}],登录token失效，需要重新登录')
         raise RuntimeError
-    print(
+    logging.info(
         f'reservation : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
