@@ -32,12 +32,10 @@ if __name__ == '__main__':
         config.set(mobile, 'city', str(city))
         config.set(mobile, 'token', str(token))
         config.set(mobile, 'userId', str(userId))
-
+        config.write(open(path, 'w+'))  # 保存数据
         condition = input(f"是否继续输入[Y/N]:").lstrip().rstrip()
         condition = condition.lower()
         if condition == 'n':
             break
 
-    # if not os.path.exists(path):
-    #     os.mknod(path)
-    config.write(open(path, 'w+'))  # 保存数据
+
