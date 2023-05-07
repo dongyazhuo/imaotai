@@ -1,9 +1,13 @@
 import datetime
 import json
 import time
+from email.mime.text import MIMEText
+
+import config
 from encrypt import Encrypt
 import requests
 import hashlib
+import smtplib
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
@@ -142,11 +146,31 @@ def act_params(shop_id: str, item_id: str):
     return params
 
 
-def reservation(params: dict):
+def send_email(msg: str):
+    if config.EMAIL_SENDER_USERNAME is None or config.EMAIL_SENDER_USERNAME == '':
+        return
+    smtp = smtplib.SMTP()
+    smtp.connect(config.SMTP_SERVER, config.SMTP_PORT)
+    smtp.login(config.EMAIL_SENDER_USERNAME, config.EMAIL_SENDER_PASSWORD)
+
+    message = MIMEText(msg, 'plain', 'utf-8')
+    # 邮件主题
+    message['Subject'] = '[i茅台登录失效]'
+    # 发送方信息
+    message['From'] = config.EMAIL_SENDER_USERNAME
+    # 接受方信息
+    message['To'] = config.EMAIL_RECEIVER
+
+    smtp.sendmail(config.EMAIL_SENDER_USERNAME, config.EMAIL_RECEIVER, message.as_string())
+    smtp.quit()
+
+
+def reservation(params: dict, mobile: str):
     params.pop('userId')
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/mall/reservation/add", json=params,
                               headers=headers)
     if responses.text.__contains__('bad token'):
-        pass
+        send_email(f'[{mobile}],登录token失效，需要重新登录')
+        raise RuntimeError
     print(
         f'reservation : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
