@@ -4,23 +4,23 @@ import time
 from encrypt import Encrypt
 import requests
 import hashlib
-import config
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
 SALT = '2af72f100c356273d46284f6fd1dfc08'
-device_id = '2F2075D0-B66C-4287-A903-DBFF6358342A'
+
 CURRENT_TIME = str(int(time.time() * 1000))
 headers = {}
+
 header_context = f'''
 Host: app.moutai519.com.cn
 MT-User-Tag: 0
 Accept: */*
 MT-Network-Type: WIFI
-MT-Token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJtdCIsImV4cCI6MTY4NjAxNDE5MCwidXNlcklkIjoxMDY3NzIyMjcxLCJkZXZpY2VJZCI6IjJGMjA3NUQwLUI2NkMtNDI4Ny1BOTAzLURCRkY2MzU4MzQyQSIsImlhdCI6MTY4MzQyMjE5MH0.qEvw9CA12CBdLYNXbaupbbH_Y9gvaeOwSyb0Xk8kv8Q
+MT-Token: 1
 MT-Team-ID: 
 MT-Info: 028e7f96f6369cafe1d105579c5b9377
-MT-Device-ID: {device_id}
+MT-Device-ID: 2F2075D0-B66C-4287-A903-DBFF6358342A
 MT-Bundle-ID: com.moutai.mall
 Accept-Language: en-CN;q=1, zh-Hans-CN;q=0.9
 MT-Request-ID: 167560018873318465
@@ -31,12 +31,16 @@ Content-Length: 93
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
 Content-Type: application/json
-userId: 1067722271
+userId: 2
 '''
 
-for k in header_context.rstrip().lstrip().split("\n"):
-    temp_l = k.split(': ')
-    dict.update(headers, {temp_l[0]: temp_l[1]})
+
+def init_headers(user_id: str = '1', token: str = '2'):
+    for k in header_context.rstrip().lstrip().split("\n"):
+        temp_l = k.split(': ')
+        dict.update(headers, {temp_l[0]: temp_l[1]})
+    dict.update(headers, {"userId": user_id})
+    dict.update(headers, {"MT-Token": token})
 
 
 def signature(data: dict):
@@ -74,6 +78,7 @@ def login(mobile: str, v_code: str):
         f'login : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
     dict.update(headers, {'MT-Token': responses.json()['data']['token']})
     dict.update(headers, {'userId': responses.json()['data']['userId']})
+    return responses.json()['data']['token'], responses.json()['data']['userId']
 
 
 def get_current_session_id():
@@ -137,22 +142,11 @@ def act_params(shop_id: str, item_id: str):
     return params
 
 
-def auto_login():
-    # 根据手机号登录，并获取验证码
-    get_vcode(config.MOBILE)
-    # block
-    # 根据验证码获取 TOKEN
-    code = input("Enter verify code:")
-    login(mobile=config.MOBILE, v_code=code.rstrip().lstrip())
-
-
 def reservation(params: dict):
     params.pop('userId')
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/mall/reservation/add", json=params,
                               headers=headers)
     if responses.text.__contains__('bad token'):
         pass
-        auto_login()
-        reservation(params)
     print(
         f'reservation : params : {params}, response code : {responses.status_code}, response body : {responses.json()}')
