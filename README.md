@@ -7,7 +7,7 @@
 ### 4、根据配置文件预约CONFIG文件中，所在城市的i茅台商品（仅预约兔茅）
 
 ## 使用：
-### rename config.py.example config.py
+### 0、rename config.py.example config.py
 ```shell
 mv config.py.example config.py
 ```
