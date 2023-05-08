@@ -57,7 +57,7 @@ if __name__ == '__main__':
         if city == '':
             city = '23'
         city = providers.get(city)
-        keyword = input("输入门店关键字[廊坊]:").lstrip().rstrip()
+        keyword = input(f"已选择省份[{city}],请继续输入门店名称关键字[西直门店]:").lstrip().rstrip()
         if keyword == '':
             keyword = city
         mobile = input("输入手机号[13812341234]:").lstrip().rstrip()
