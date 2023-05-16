@@ -90,7 +90,7 @@ python3 main.py
 ### 2、可以配置一个定时任务，执行每日自动预约。 
 ```shell
 # imaotai
-10 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /tmp/logs/imaotai.log
+10 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
 ```
 ### 3、
 
