@@ -29,6 +29,8 @@ for section in configs.sections():
     try:
         for item in config.ITEM_CODES:
             max_shop_id = process.get_location_count(city=city, item_code=item, keyword=keyword)
+            if max_shop_id == 0:
+                continue
             reservation_params = process.act_params(max_shop_id, item)
             process.reservation(reservation_params, mobile)
     except BaseException as e:
