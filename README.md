@@ -7,20 +7,24 @@
 ### 4、根据配置文件预约CONFIG文件中，所在城市的i茅台商品（仅预约兔茅）
 
 ## 使用：
-### 0、rename config.py.example config.py
-```shell
-mv config.py.example config.py
-```
-### 1、安装依赖
+
+### 0、安装依赖
 ```shell
 pip3 install -r requirements.txt
 ```
-### 2、修改config.py Email相关的配置.如果出现token失效等预约失败,会进行邮件通知。不需要的话请设置 EMAIL_SENDER_USERNAME 为空
+
+### 1、rename config.py.example config.py
+```shell
+mv config.py.example config.py
+```
+
+### 2、(可选)修改config.py email相关的配置.如果出现token失效等预约失败,会进行邮件通知。不需要的话请设置 EMAIL_SENDER_USERNAME 为空
 ```shell
 EMAIL_SENDER_USERNAME = "sender@126.com"
 EMAIL_SENDER_PASSWORD = "XXXGKIB"
 EMAIL_RECEIVER = EMAIL_SENDER_USERNAME
 ```
+
 ### 3、按提示输入 预约城市、手机号、验证码 等，生成的token等 配置文件会保存在 $HOME/.imaotai/credentials, 很长时间不再需要登录。支持多账号
 ```shell
 mobian@mobian:~/app/imaotai$ python3 login.py
@@ -60,6 +64,7 @@ province = 山西省
 lat = 45.042259
 lng = 115.344116
 ```
+
 ### 4、python3 main.py ,执行预约操作
 ```shell
 python3 main.py
