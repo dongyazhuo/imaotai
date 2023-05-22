@@ -13,9 +13,9 @@
 pip3 install -r requirements.txt
 ```
 
-### 1、rename config.py.example config.py
+### 1、复制配置文件
 ```shell
-mv config.py.example config.py
+cp config.py.example config.py
 ```
 
 ### 2、(可选)修改config.py email相关的配置.如果出现token失效等预约失败,会进行邮件通知。不需要的话请设置 EMAIL_SENDER_USERNAME 为空
