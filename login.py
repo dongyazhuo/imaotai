@@ -1,5 +1,5 @@
 import configparser
-import json
+
 import os
 
 import process
@@ -14,62 +14,52 @@ except OSError:
     pass
 config.read(path)
 sections = config.sections()
-providers = {
-    "1": "河北省",
-    "2": "山西省",
-    "3": "吉林省",
-    "4": "辽宁省",
-    "5": "黑龙江省",
-    "6": "陕西省",
-    "7": "甘肃省",
-    "8": "青海省",
-    "9": "山东省",
-    "10": "福建省",
-    "11": "浙江省",
-    "12": "河南省",
-    "13": "湖北省",
-    "14": "湖南省",
-    "15": "江西省",
-    "16": "江苏省",
-    "17": "安徽省",
-    "18": "广东省",
-    "19": "海南省",
-    "20": "四川省",
-    "21": "贵州省",
-    "22": "云南省",
-    "23": "北京市",
-    "24": "上海市",
-    "25": "天津市",
-    "26": "重庆市",
-    "27": "内蒙古自治区",
-    "28": "新疆维吾尔自治区",
-    "29": "宁夏回族自治区",
-    "30": "广西壮族自治区",
-    "31": "西藏自治区"
-}
+
+
+def get_location():
+    while 1:
+
+        location = input(f"请输入你的位置，例如[小区名称]，为你自动预约附近的门店:").lstrip().rstrip()
+        selects = process.select_geo(location)
+
+        a = 0
+        for item in selects:
+            formatted_address = item['formatted_address']
+            province = item['province']
+            print(f'{a} : [地区:{province},位置:{formatted_address}]')
+            a += 1
+        user_select = input(f"请选择位置序号,重新输入请输入[-]:").lstrip().rstrip()
+        if user_select == '-':
+            continue
+        select = selects[int(user_select)]
+        formatted_address = select['formatted_address']
+        province = select['province']
+        print(f'已选择 地区:{province},[{formatted_address}]附近的门店')
+        return select
+
 
 if __name__ == '__main__':
 
-    while True:
+    while 1:
         process.init_headers()
-        print(json.dumps(providers, indent=5, ensure_ascii=False))
-        city = input("选择预约省份序号[23]:").lstrip().rstrip()
-        if city == '':
-            city = '23'
-        city = providers.get(city)
-        keyword = input(f"已选择省份[{city}],请继续输入门店名称关键字[西直门店]:").lstrip().rstrip()
-        if keyword == '':
-            keyword = city
+        location_select: dict = get_location()
+        province = location_select['province']
+        city = location_select['city']
+        location: str = location_select['location']
+
         mobile = input("输入手机号[13812341234]:").lstrip().rstrip()
         process.get_vcode(mobile)
         code = input(f"输入 [{mobile}] 验证码[1234]:").lstrip().rstrip()
         token, userId = process.login(mobile, code)
         if mobile not in sections:
             config.add_section(mobile)  # 首先添加一个新的section
+
+        config.set(mobile, 'province', str(province))
         config.set(mobile, 'city', str(city))
         config.set(mobile, 'token', str(token))
         config.set(mobile, 'userId', str(userId))
-        config.set(mobile, 'keyword', str(keyword))
+        config.set(mobile, 'lat', location.split(',')[1])
+        config.set(mobile, 'lng', location.split(',')[0])
         config.write(open(path, 'w+'))  # 保存数据
         condition = input(f"是否继续添加账号[Y/N]:").lstrip().rstrip()
         condition = condition.lower()
