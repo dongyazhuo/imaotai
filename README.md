@@ -14,7 +14,7 @@ pip3 install --no-cache-dir -r requirements.txt
 ```
 
 ### 2、(可选)修改config.py 
-```shell
+```python
 
 ITEM_MAP = {
     "10213": "53%vol 500ml贵州茅台酒（癸卯兔年）",
@@ -30,9 +30,8 @@ ITEM_CODES = ['10213', '10214']
 
 # 预约失败的邮件通知，默认不发送，发送需要配置发件人信息（一般为登录过期，token失效）
 ########################
-#EMAIL_SENDER_USERNAME = "sender@126.com"
-EMAIL_SENDER_USERNAME = ""
-EMAIL_SENDER_PASSWORD = "XXXGKIB"
+EMAIL_SENDER_USERNAME = "@"
+EMAIL_SENDER_PASSWORD = "x"
 SMTP_SERVER = "smtp." + EMAIL_SENDER_USERNAME.split("@")[1]
 SMTP_PORT = 25
 EMAIL_RECEIVER = EMAIL_SENDER_USERNAME
@@ -52,7 +51,7 @@ DISTANCE_ENABLED = False
 ```shell
 mobian@mobian:~/app/imaotai$ python3 login.py
 
-请输入你的位置，例如[小区名称]，为你预约本市门店商店: 军安家园
+请输入你的位置,例如[小区名称],为你预约本市门店商店: 军安家园
 0 : [地区:内蒙古自治区,位置:内蒙古自治区赤峰市红山区军安家园]
 请选择位置序号,重新输入请输入[-]:0
 已选择 地区:北京市,[北京市海淀区上地十街]附近的门店
@@ -94,13 +93,12 @@ python3 main.py
 ```
 
 ## 注意:
-### 1、手机登录以后，脚本token可能会失效。
-### 2、可以配置一个定时任务，执行每日自动预约。 
+### 1、可以配置一个定时任务，执行每日自动预约。 
 ```shell
 # imaotai
 10 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
 ```
-### 3、
+
 
 
 ##### 感谢提供的文档：https://blog.csdn.net/weixin_47481826/article/details/128893239
