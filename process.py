@@ -214,7 +214,7 @@ def act_params(shop_id: str, item_id: str):
 
 
 def send_email(msg: str):
-    if config.EMAIL_SENDER_USERNAME is None or config.EMAIL_SENDER_USERNAME == '':
+    if config.EMAIL_SENDER_USERNAME is None or config.EMAIL_SENDER_USERNAME == '@':
         return
     smtp = smtplib.SMTP()
     smtp.connect(config.SMTP_SERVER, config.SMTP_PORT)
