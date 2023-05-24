@@ -142,14 +142,14 @@ def distance_shop(city,
                   source_data,
                   lat: str = '28.499562',
                   lng: str = '102.182324'):
-    shop_ids = p_c_map[province][city]
+    # shop_ids = p_c_map[province][city]
     temp_list = []
     for shop in shops:
         shopId = shop['shopId']
         items = shop['items']
         item_ids = [i['itemId'] for i in items]
-        if shopId not in shop_ids:
-            continue
+        # if shopId not in shop_ids:
+        #     continue
         if str(item_code) not in item_ids:
             continue
         shop_info = source_data.get(shopId)

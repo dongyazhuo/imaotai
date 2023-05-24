@@ -12,9 +12,8 @@ ITEM_CODES = ['10213', '10214']
 
 # 预约失败的邮件通知，默认不发送，发送需要配置发件人信息（一般为登录过期，token失效）
 ########################
-#EMAIL_SENDER_USERNAME = "sender@126.com"
-EMAIL_SENDER_USERNAME = ""
-EMAIL_SENDER_PASSWORD = "XXXGKIB"
+EMAIL_SENDER_USERNAME = "@"
+EMAIL_SENDER_PASSWORD = "x"
 SMTP_SERVER = "smtp." + EMAIL_SENDER_USERNAME.split("@")[1]
 SMTP_PORT = 25
 EMAIL_RECEIVER = EMAIL_SENDER_USERNAME
