@@ -43,7 +43,7 @@ for section in configs.sections():
                 continue
             shop_info = source_data.get(str(max_shop_id))
             title = config.ITEM_MAP.get(item)
-            logging.info(f'商品：{title}, 预约的门店信息：{shop_info["name"]}')
+            logging.info(f'商品：{title}, 门店：{shop_info["name"]}')
             reservation_params = process.act_params(max_shop_id, item)
             process.reservation(reservation_params, mobile)
     except BaseException as e:
