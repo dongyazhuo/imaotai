@@ -1,7 +1,4 @@
-# 兔茅500ml
-ITEM_CODE_1 = '10213'
-# 兔茅375ml*2
-ITEM_CODE_2 = '10214'
+
 
 ITEM_MAP = {
     "10213": "53%vol 500ml贵州茅台酒（癸卯兔年）",
@@ -10,7 +7,7 @@ ITEM_MAP = {
     "2478": "53%vol 500ml贵州茅台酒（珍品）"
 }
 
-ITEM_CODES = [ITEM_CODE_1, ITEM_CODE_2]
+ITEM_CODES = ['10213', '10214']
 
 EMAIL_SENDER_USERNAME = "sender@126.com"
 EMAIL_SENDER_PASSWORD = "XXXGKIB"
