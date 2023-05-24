@@ -24,7 +24,7 @@ for section in configs.sections():
     lat = configs.get(mobile, 'lat')
     lng = configs.get(mobile, 'lng')
 
-    p_c_map: dict = process.get_map(lat=lat, lng=lng)
+    p_c_map, source_data = process.get_map(lat=lat, lng=lng)
 
     process.UserId = userId
     process.TOKEN = token
@@ -35,9 +35,15 @@ for section in configs.sections():
             max_shop_id = process.get_location_count(province=province,
                                                      city=city,
                                                      item_code=item,
-                                                     p_c_map=p_c_map)
+                                                     p_c_map=p_c_map,
+                                                     source_data=source_data,
+                                                     lat=lat,
+                                                     lng=lng)
             if int(max_shop_id) == 0:
                 continue
+            shop_info = source_data.get(str(max_shop_id))
+            title = config.ITEM_MAP.get(item)
+            logging.info(f'商品：{title}, 预约的门店信息：{shop_info}')
             reservation_params = process.act_params(max_shop_id, item)
             process.reservation(reservation_params, mobile)
     except BaseException as e:

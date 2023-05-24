@@ -11,6 +11,7 @@ import requests
 import hashlib
 import smtplib
 import logging
+from geopy.distance import geodesic
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
@@ -111,7 +112,13 @@ def get_current_session_id():
     dict.update(headers, {'current_session_id': str(current_session_id)})
 
 
-def get_location_count(province: str, city: str, item_code: str, p_c_map: dict):
+def get_location_count(province: str,
+                       city: str,
+                       item_code: str,
+                       p_c_map: dict,
+                       source_data: dict,
+                       lat: str = '28.499562',
+                       lng: str = '102.182324'):
     day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
     session_id = headers['current_session_id']
     responses = requests.get(
@@ -120,6 +127,45 @@ def get_location_count(province: str, city: str, item_code: str, p_c_map: dict):
         logging.warning(
             f'get_location_count : params : {day_time}, response code : {responses.status_code}, response body : {responses.text}')
     shops = responses.json()['data']['shops']
+
+    if config.MAX_ENABLED:
+        return max_shop(city, item_code, p_c_map, province, shops)
+    if config.DISTANCE_ENABLED:
+        return distance_shop(city, item_code, p_c_map, province, shops, source_data, lat, lng)
+
+
+def distance_shop(city,
+                  item_code,
+                  p_c_map,
+                  province,
+                  shops,
+                  source_data,
+                  lat: str = '28.499562',
+                  lng: str = '102.182324'):
+    shop_ids = p_c_map[province][city]
+    temp_list = []
+    for shop in shops:
+        shopId = shop['shopId']
+        items = shop['items']
+        item_ids = [i['itemId'] for i in items]
+        if shopId not in shop_ids:
+            continue
+        if str(item_code) not in item_ids:
+            continue
+        shop_info = source_data.get(shopId)
+        d = geodesic((lat, lng), (shop_info['lat'], shop_info['lng'])).km
+        temp_list.append((d, shopId))
+
+    # sorted(a,key=lambda x:x[0])
+    temp_list = sorted(temp_list, key=lambda x: x[0])
+    # logging.info(f"所有门店距离:{temp_list}")
+    if len(temp_list) > 0:
+        return temp_list[0][1]
+    else:
+        return 0
+
+
+def max_shop(city, item_code, p_c_map, province, shops):
     max_count = 0
     max_shop_id = 0
     shop_ids = p_c_map[province][city]
@@ -135,7 +181,6 @@ def get_location_count(province: str, city: str, item_code: str, p_c_map: dict):
             if item['inventory'] > max_count:
                 max_count = item['inventory']
                 max_shop_id = shopId
-
     logging.debug(f'item code {item_code}, max shop id : {max_shop_id}, max count : {max_count}')
     return max_shop_id
 
@@ -236,4 +281,4 @@ def get_map(lat: str = '28.499562', lng: str = '102.182324'):
         else:
             p_c_map[provinceName][cityName].append(k)
 
-    return p_c_map
+    return p_c_map, dict(r.json())
