@@ -8,14 +8,9 @@
 
 ## 使用：
 
-### 0、安装依赖
+### 1、安装依赖
 ```shell
 pip3 install --no-cache-dir -r requirements.txt
-```
-
-### 1、复制配置文件
-```shell
-cp config.py.example config.py
 ```
 
 ### 2、(可选)修改config.py 
@@ -33,7 +28,7 @@ ITEM_MAP = {
 ITEM_CODES = ['10213', '10214']
 
 
-# 预约失败的邮件通知,需要配置发件人信息（一般为登录过期，token失效）
+# 预约失败的邮件通知，默认不发送，发送需要配置发件人信息（一般为登录过期，token失效）
 ########################
 #EMAIL_SENDER_USERNAME = "sender@126.com"
 EMAIL_SENDER_USERNAME = ""
