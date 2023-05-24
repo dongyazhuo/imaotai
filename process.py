@@ -115,7 +115,7 @@ def get_location_count(province: str, city: str, item_code: str, p_c_map: dict):
     day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
     session_id = headers['current_session_id']
     responses = requests.get(
-        f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/shop/list/slim/v3/{session_id}/{city}/{item_code}/{day_time}")
+        f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/shop/list/slim/v3/{session_id}/{province}/{item_code}/{day_time}")
     if responses.status_code != 200:
         logging.warning(
             f'get_location_count : params : {day_time}, response code : {responses.status_code}, response body : {responses.text}')
