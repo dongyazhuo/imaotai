@@ -6,10 +6,10 @@ import process
 
 config = configparser.ConfigParser()  # 类实例化
 # 定义文件路径
-home_path = os.getenv("HOME")
-path = home_path + '/.imaotai/credentials'
+home_path = os.path.expanduser("~")
+path = os.path.join(home_path, '.imaotai', 'credentials')
 try:
-    os.mkdir(home_path + '/.imaotai/')
+    os.mkdir(os.path.join(home_path, '.imaotai'))
 except OSError:
     pass
 config.read(path)
