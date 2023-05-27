@@ -162,12 +162,12 @@ def distance_shop(city,
     if len(temp_list) > 0:
         return temp_list[0][1]
     else:
-        return 0
+        return '0'
 
 
 def max_shop(city, item_code, p_c_map, province, shops):
     max_count = 0
-    max_shop_id = 0
+    max_shop_id = '0'
     shop_ids = p_c_map[province][city]
     for shop in shops:
         shopId = shop['shopId']

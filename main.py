@@ -40,7 +40,7 @@ for section in configs.sections():
                                                      lat=lat,
                                                      lng=lng)
             print(f'max shop id : {max_shop_id}')
-            if int(max_shop_id) == 0:
+            if max_shop_id == '0':
                 continue
             shop_info = source_data.get(str(max_shop_id))
             title = config.ITEM_MAP.get(item)
