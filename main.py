@@ -39,6 +39,7 @@ for section in configs.sections():
                                                      source_data=source_data,
                                                      lat=lat,
                                                      lng=lng)
+            print(f'max shop id : {max_shop_id}')
             if int(max_shop_id) == 0:
                 continue
             shop_info = source_data.get(str(max_shop_id))
