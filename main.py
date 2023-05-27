@@ -47,4 +47,5 @@ for section in configs.sections():
             reservation_params = process.act_params(max_shop_id, item)
             process.reservation(reservation_params, mobile)
     except BaseException as e:
+        print(e)
         logging.error(e)
