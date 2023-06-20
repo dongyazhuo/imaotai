@@ -47,6 +47,7 @@ for section in configs.sections():
             logging.info(f'商品：{title}, 门店：{shop_info["name"]}')
             reservation_params = process.act_params(max_shop_id, item)
             process.reservation(reservation_params, mobile)
+            process.getUserEnergyAward(mobile)
     except BaseException as e:
         print(e)
         logging.error(e)
