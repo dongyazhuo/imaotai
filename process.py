@@ -50,7 +50,6 @@ Content-Type: application/json
 userId: 2
 '''
 
-
 def init_headers(user_id: str = '1', token: str = '2', lat: str = '28.499562', lng: str = '102.182324'):
     for k in header_context.rstrip().lstrip().split("\n"):
         temp_l = k.split(': ')
@@ -243,6 +242,7 @@ def reservation(params: dict, mobile: str):
         f'预约 : mobile:{mobile} :  response code : {responses.status_code}, response body : {responses.text}')
 
 
+
 def select_geo(i: str):
     resp = requests.get(f"https://restapi.amap.com/v3/geocode/geo?key={AMAP_KEY}&output=json&address={i}")
     geocodes: list = resp.json()['geocodes']
@@ -282,3 +282,19 @@ def get_map(lat: str = '28.499562', lng: str = '102.182324'):
             p_c_map[provinceName][cityName].append(k)
 
     return p_c_map, dict(r.json())
+
+
+def getUserEnergyAward(mobile: str):
+    """
+    领取耐力
+    """
+    cookies = {
+        'MT-Device-ID-Wap':  headers['MT-Device-ID'],
+        'MT-Token-Wap': headers['MT-Token'],
+        'YX_SUPPORT_WEBP': '1',
+    }
+    response = requests.post('https://h5.moutai519.com.cn/game/isolationPage/getUserEnergyAward', cookies=cookies,
+                             headers=headers, json={})
+    # response.json().get('message') if '无法领取奖励' in response.text else "领取奖励成功"
+    logging.info(
+        f'领取耐力 : mobile:{mobile} :  response code : {response.status_code}, response body : {response.text}')
