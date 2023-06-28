@@ -13,10 +13,10 @@ def get_credentials_path():
     else:
         home_path = os.path.expanduser("~")
         path = os.path.join(home_path, '.imaotai', 'credentials')
+        # 尝试创建目录
         try:
             os.mkdir(os.path.join(home_path, '.imaotai'))
         except OSError:
-            print('加载配置文件位置出错')
             pass
         return path
 
