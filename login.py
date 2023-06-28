@@ -1,18 +1,28 @@
 import configparser
 
 import os
-
+import config as cf
 import process
 
 config = configparser.ConfigParser()  # 类实例化
-# 定义文件路径
-home_path = os.path.expanduser("~")
-path = os.path.join(home_path, '.imaotai', 'credentials')
-try:
-    os.mkdir(os.path.join(home_path, '.imaotai'))
-except OSError:
-    pass
-config.read(path)
+
+
+def get_credentials_path():
+    if cf.CREDENTIALS_PATH is not None:
+        return cf.CREDENTIALS_PATH
+    else:
+        home_path = os.path.expanduser("~")
+        path = os.path.join(home_path, '.imaotai', 'credentials')
+        try:
+            os.mkdir(os.path.join(home_path, '.imaotai'))
+        except OSError:
+            print('加载配置文件位置出错')
+            pass
+        return path
+
+
+path = get_credentials_path()
+config.read(get_credentials_path())
 sections = config.sections()
 
 

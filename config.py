@@ -9,18 +9,16 @@ ITEM_MAP = {
 ########################
 ITEM_CODES = ['10213', '10214']
 
-# 预约失败的邮件通知，默认不发送，发送需要配置发件人信息（一般为登录过期，token失效）
+# push plus 微信推送,具体使用参考  https://www.pushplus.plus
 ########################
-# 发件人邮箱 ： hello@hi.com
-EMAIL_SENDER_USERNAME = "@"
-# 发件人密码：123456
-EMAIL_SENDER_PASSWORD = "x"
-# 发件人邮箱服务器
-SMTP_SERVER = "smtp." + EMAIL_SENDER_USERNAME.split("@")[1]
-# 发件人邮箱服务器端口
-SMTP_PORT = 25
-# 收件人邮箱
-EMAIL_RECEIVER = EMAIL_SENDER_USERNAME
+# 不填不推送消息，一对一发送
+PUSH_TOKEN = None
+########################
+
+# credentials 路径，例如：CREDENTIALS_PATH = /home/user/.imoutai/credentials
+# 不配置，使用默认路径，在宿主目录
+########################
+CREDENTIALS_PATH = None
 ########################
 
 # 预约规则配置

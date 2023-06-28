@@ -3,13 +3,11 @@ import json
 import random
 import re
 import time
-from email.mime.text import MIMEText
-
 import config
 from encrypt import Encrypt
 import requests
 import hashlib
-import smtplib
+
 import logging
 from geopy.distance import geodesic
 
@@ -49,6 +47,7 @@ Connection: keep-alive
 Content-Type: application/json
 userId: 2
 '''
+
 
 def init_headers(user_id: str = '1', token: str = '2', lat: str = '28.499562', lng: str = '102.182324'):
     for k in header_context.rstrip().lstrip().split("\n"):
@@ -213,22 +212,15 @@ def act_params(shop_id: str, item_id: str):
 
 
 def send_email(msg: str):
-    if config.EMAIL_SENDER_USERNAME is None or config.EMAIL_SENDER_USERNAME == '@':
+    if config.PUSH_TOKEN is None:
         return
-    smtp = smtplib.SMTP()
-    smtp.connect(config.SMTP_SERVER, config.SMTP_PORT)
-    smtp.login(config.EMAIL_SENDER_USERNAME, config.EMAIL_SENDER_PASSWORD)
-
-    message = MIMEText(msg, 'plain', 'utf-8')
-    # 邮件主题
-    message['Subject'] = '[i茅台登录失效]'
-    # 发送方信息
-    message['From'] = config.EMAIL_SENDER_USERNAME
-    # 接受方信息
-    message['To'] = config.EMAIL_RECEIVER
-
-    smtp.sendmail(config.EMAIL_SENDER_USERNAME, config.EMAIL_RECEIVER, message.as_string())
-    smtp.quit()
+    title = 'imoutai预约失败'  # 改成你要的标题内容
+    content = msg  # 改成你要的正文内容
+    url = 'http://www.pushplus.plus/send'
+    r = requests.get(url, params={'token': config.PUSH_TOKEN,
+                                  'title': title,
+                                  'content': content})
+    logging.info(f'通知推送结果：{r.status_code, r.text}')
 
 
 def reservation(params: dict, mobile: str):
@@ -240,7 +232,6 @@ def reservation(params: dict, mobile: str):
         raise RuntimeError
     logging.info(
         f'预约 : mobile:{mobile} :  response code : {responses.status_code}, response body : {responses.text}')
-
 
 
 def select_geo(i: str):
@@ -289,7 +280,7 @@ def getUserEnergyAward(mobile: str):
     领取耐力
     """
     cookies = {
-        'MT-Device-ID-Wap':  headers['MT-Device-ID'],
+        'MT-Device-ID-Wap': headers['MT-Device-ID'],
         'MT-Token-Wap': headers['MT-Token'],
         'YX_SUPPORT_WEBP': '1',
     }
