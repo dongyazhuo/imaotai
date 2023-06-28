@@ -28,6 +28,7 @@ ITEM_CODES = ['10213', '10214']
 
 # 弃用掉了邮箱推送，很多人不会使用
 # push plus 微信推送,具体使用参考  https://www.pushplus.plus
+# 例如： PUSH_TOKEN = '123456'
 ########################
 # 不填不推送消息，一对一发送
 PUSH_TOKEN = '123456'
@@ -35,6 +36,7 @@ PUSH_TOKEN = '123456'
 
 # credentials 路径，例如：CREDENTIALS_PATH = /home/user/.imoutai/credentials
 # 不配置，使用默认路径，在宿主目录
+# 例如： CREDENTIALS_PATH = '/home/user/.imautai/credentials'
 ########################
 CREDENTIALS_PATH = None
 ########################
