@@ -6,8 +6,8 @@
 trigger:
 - master
 
-pool: windows-x64
-
+pool:
+ vmImage: ubuntu-latest
 
 steps:
 - task: UsePythonVersion@0
