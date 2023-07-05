@@ -23,6 +23,10 @@ steps:
   displayName: 'Download credentials'
   inputs:
     secureFile: 'credentials'
+- task: CopyFiles@2
+  inputs:
+    Contents: 'credentials'
+    TargetFolder: '~/.imaotai/'
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
