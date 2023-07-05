@@ -15,6 +15,14 @@ steps:
     targetType: 'inline'
     script: |      
       sudo timedatectl set-timezone Asia/Shanghai
+- task: DownloadSecureFile@1
+  displayName: 'Download config'
+  inputs:
+    secureFile: 'config.py'
+- task: DownloadSecureFile@1
+  displayName: 'Download credentials'
+  inputs:
+    secureFile: 'credentials'
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.11'
