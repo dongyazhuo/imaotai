@@ -6,8 +6,8 @@
 trigger:
 - master
 
-pool:
-  vmImage: windows-x64
+pool: windows-x64
+
 
 steps:
 - task: UsePythonVersion@0
