@@ -98,6 +98,7 @@ python3 main.py
 
 ## 注意:
 ### 1、可以配置一个定时任务，执行每日自动预约,建议每天多执行2次
+### 2、注意服务器的时区是UTC+8,中国区域
 ```shell
 # imaotai
 10 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
