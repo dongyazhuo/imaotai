@@ -230,6 +230,9 @@ def reservation(params: dict, mobile: str):
     if responses.status_code == 401:
         send_email(f'[{mobile}],登录token失效，需要重新登录')
         raise RuntimeError
+    if responses.status_code == 480:
+        send_email(f'[{mobile}],{responses.text}')
+        raise RuntimeError
     logging.info(
         f'预约 : mobile:{mobile} :  response code : {responses.status_code}, response body : {responses.text}')
 
