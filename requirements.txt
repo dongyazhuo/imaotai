@@ -1,4 +1,3 @@
 requests~=2.30.0
 urllib3<=1.25
 pycryptodome==3.17
-geopy~=2.3.0

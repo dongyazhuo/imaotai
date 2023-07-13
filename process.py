@@ -1,5 +1,6 @@
 import datetime
 import json
+import math
 import random
 import re
 import time
@@ -9,7 +10,6 @@ import requests
 import hashlib
 
 import logging
-from geopy.distance import geodesic
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
@@ -151,7 +151,9 @@ def distance_shop(city,
         if str(item_code) not in item_ids:
             continue
         shop_info = source_data.get(shopId)
-        d = geodesic((lat, lng), (shop_info['lat'], shop_info['lng'])).km
+        # d = geodesic((lat, lng), (shop_info['lat'], shop_info['lng'])).km
+        d = math.sqrt((float(lat) - shop_info['lat']) ** 2 + (float(lng) - shop_info['lng']) ** 2)
+        # print(f"距离：{d}")
         temp_list.append((d, shopId))
 
     # sorted(a,key=lambda x:x[0])
