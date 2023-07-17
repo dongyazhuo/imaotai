@@ -101,9 +101,7 @@ python3 main.py
 ### 2、注意服务器的时区是UTC+8,中国区域
 ```shell
 # imaotai
-10 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
-40 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
-50 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
+10,40,50 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
 ```
 
 
