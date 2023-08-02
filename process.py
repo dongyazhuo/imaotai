@@ -15,7 +15,7 @@ AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
 SALT = '2af72f100c356273d46284f6fd1dfc08'
 
-AMAP_KEY = '9449339b6c4aee04d69481e6e6c84a84'
+# AMAP_KEY = '9449339b6c4aee04d69481e6e6c84a84'
 
 CURRENT_TIME = str(int(time.time() * 1000))
 headers = {}
@@ -240,7 +240,8 @@ def reservation(params: dict, mobile: str):
 
 
 def select_geo(i: str):
-    resp = requests.get(f"https://restapi.amap.com/v3/geocode/geo?key={AMAP_KEY}&output=json&address={i}")
+    # https://www.piliang.tech/geocoding-amap
+    resp = requests.get(f"https://www.piliang.tech/api/amap/geocode?address={i}")
     geocodes: list = resp.json()['geocodes']
     return geocodes
 
