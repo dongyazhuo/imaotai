@@ -101,11 +101,13 @@ python3 main.py
 ### 2、注意服务器的时区是UTC+8,中国区域
 ```shell
 # imaotai
-10 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
-40 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
-50 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
+10,40,50 9 * * * root python3 /home/mobian/app/imaotai/main.py >> /var/log/imaotai.log
 ```
-
-
-
 ##### 感谢提供的文档：https://blog.csdn.net/weixin_47481826/article/details/128893239
+
+## Thank you to JetBrains for supporting open source projects：
+request for JetBrains OSS development license. Request ID=11072023/12114306
+<a href="https://jb.gg/OpenSourceSupport">
+  <img src="https://user-images.githubusercontent.com/8643542/160519107-199319dc-e1cf-4079-94b7-01b6b8d23aa6.png" align="left" height="100" width="100"  alt="JetBrains">
+</a>
+
