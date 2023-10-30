@@ -8,8 +8,8 @@ import config
 from encrypt import Encrypt
 import requests
 import hashlib
-
 import logging
+import pytz
 
 AES_KEY = 'qbhajinldepmucsonaaaccgypwuvcjaa'
 AES_IV = '2018534749963515'
@@ -17,7 +17,7 @@ SALT = '2af72f100c356273d46284f6fd1dfc08'
 
 # AMAP_KEY = '9449339b6c4aee04d69481e6e6c84a84'
 
-CURRENT_TIME = str(int(time.time() * 1000))
+current_time = str(int(time.time() * 1000))
 headers = {}
 mt_version = "".join(re.findall('latest__version">(.*?)</p>',
                                 requests.get('https://apps.apple.com/cn/app/i%E8%8C%85%E5%8F%B0/id1600482450').text,
@@ -65,7 +65,7 @@ def signature(data: dict):
     temp_v = ''
     for item in keys:
         temp_v += data[item]
-    text = SALT + temp_v + CURRENT_TIME
+    text = SALT + temp_v + current_time
     hl = hashlib.md5()
     hl.update(text.encode(encoding='utf8'))
     md5 = hl.hexdigest()
@@ -78,7 +78,7 @@ print()
 def get_vcode(mobile: str):
     params = {'mobile': mobile}
     md5 = signature(params)
-    dict.update(params, {'md5': md5, "timestamp": CURRENT_TIME, 'MT-APP-Version': mt_version})
+    dict.update(params, {'md5': md5, "timestamp": current_time, 'MT-APP-Version': mt_version})
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/vcode", json=params,
                               headers=headers)
 
@@ -89,7 +89,7 @@ def get_vcode(mobile: str):
 def login(mobile: str, v_code: str):
     params = {'mobile': mobile, 'vCode': v_code, 'ydToken': '', 'ydLogId': ''}
     md5 = signature(params)
-    dict.update(params, {'md5': md5, "timestamp": CURRENT_TIME, 'MT-APP-Version': mt_version})
+    dict.update(params, {'md5': md5, "timestamp": current_time, 'MT-APP-Version': mt_version})
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/login", json=params,
                               headers=headers)
     if responses.status_code != 200:
@@ -101,13 +101,29 @@ def login(mobile: str, v_code: str):
 
 
 def get_current_session_id():
-    day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
+    day_time = get_day_time()
     responses = requests.get(f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/index/session/get/{day_time}")
     if responses.status_code != 200:
         logging.warning(
             f'get_current_session_id : params : {day_time}, response code : {responses.status_code}, response body : {responses.text}')
     current_session_id = responses.json()['data']['sessionId']
     dict.update(headers, {'current_session_id': str(current_session_id)})
+
+
+def get_day_time():
+
+    # 创建一个东八区（北京时间）的时区对象
+    beijing_tz = pytz.timezone('Asia/Shanghai')
+
+    # 获取当前北京时间的日期和时间对象
+    beijing_dt = datetime.datetime.now(beijing_tz)
+
+    # 设置时间为0点
+    beijing_dt = beijing_dt.replace(hour=0, minute=0, second=0, microsecond=0)
+
+    # 获取时间戳（以秒为单位）
+    timestamp = int(beijing_dt.timestamp()) * 1000
+    return timestamp
 
 
 def get_location_count(province: str,
@@ -117,7 +133,7 @@ def get_location_count(province: str,
                        source_data: dict,
                        lat: str = '28.499562',
                        lng: str = '102.182324'):
-    day_time = int(time.mktime(datetime.date.today().timetuple())) * 1000
+    day_time = get_day_time()
     session_id = headers['current_session_id']
     responses = requests.get(
         f"https://static.moutai519.com.cn/mt-backend/xhr/front/mall/shop/list/slim/v3/{session_id}/{province}/{item_code}/{day_time}")
