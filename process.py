@@ -19,9 +19,9 @@ SALT = '2af72f100c356273d46284f6fd1dfc08'
 
 CURRENT_TIME = str(int(time.time() * 1000))
 headers = {}
-mt_version = "".join(re.findall('new__latest__version">(.*?)</p>',
+mt_version = "".join(re.findall('latest__version">(.*?)</p>',
                                 requests.get('https://apps.apple.com/cn/app/i%E8%8C%85%E5%8F%B0/id1600482450').text,
-                                re.S)).replace('版本 ', '')
+                                re.S)).split(" ")[1]
 
 header_context = f'''
 MT-Lat: 28.499562
@@ -81,9 +81,9 @@ def get_vcode(mobile: str):
     dict.update(params, {'md5': md5, "timestamp": CURRENT_TIME, 'MT-APP-Version': mt_version})
     responses = requests.post("https://app.moutai519.com.cn/xhr/front/user/register/vcode", json=params,
                               headers=headers)
-    if responses.status_code != 200:
-        logging.info(
-            f'get v_code : params : {params}, response code : {responses.status_code}, response body : {responses.text}')
+
+    logging.info(
+        f'get v_code : params : {params}, response code : {responses.status_code}, response body : {responses.text}')
 
 
 def login(mobile: str, v_code: str):
